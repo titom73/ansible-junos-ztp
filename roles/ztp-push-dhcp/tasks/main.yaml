@@ -1,0 +1,11 @@
+---
+- name: copy dhcp content to dhcp-server
+  template: src={{ ztp.path.build }}/dhcpd.conf dest=/etc/dhcp/dhcpd.conf backup=yes
+
+- name: restart dhcp service to apply changes
+  service: name=isc-dhcp-server state=restarted
+
+- name: push junos configuration to the FTP server
+  copy: src={{ item }} dest={{ztp.path.ftp_root}}/{{ztp.path.ftp_conf}}/{{ item | basename  }}
+  with_fileglob:
+        - "{{ztp.path.junos_local}}/*.conf"

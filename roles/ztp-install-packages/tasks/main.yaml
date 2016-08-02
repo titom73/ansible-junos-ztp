@@ -1,0 +1,33 @@
+---
+- name: Boostrap Python APT
+  raw: "apt-get install python-apt -y"
+
+- name: update repository cache to get latest packages version
+  apt: update_cache=yes cache_valid_time=3600
+
+- name: install DHCP server
+  apt: name=isc-dhcp-server state=present
+
+- name: restart dhcp service to apply changes
+  service: name=isc-dhcp-server state=restarted
+
+- name: install FTP server to deploy configuration and software
+  apt: name=vsftpd state=present
+
+- name: enable anonymous support
+  replace: dest=/etc/vsftpd.conf regexp='anonymous_enable=NO' replace='anonymous_enable=YES' backup=yes
+
+- name: create ftp home directory
+  file: path={{ztp.setup.ftp.home_dir}} state=directory mode=0755
+
+- name: create ftp structure conf directory
+  file: path={{ztp.setup.ftp.home_dir}}/conf state=directory mode=0755
+
+- name: create ftp structure soft directory
+  file: path={{ztp.setup.ftp.home_dir}}/soft state=directory mode=0755
+
+- name: change permission for /var/FTP
+  raw: "usermod -d {{ztp.setup.ftp.home_dir}} ftp"
+
+- name: restart ftp service to apply changes
+  service: name=vsftpd state=restarted

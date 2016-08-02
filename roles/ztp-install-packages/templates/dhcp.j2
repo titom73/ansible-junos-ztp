@@ -1,0 +1,42 @@
+#
+# Sample configuration file for ISC dhcpd for Debian
+#
+# Attention: If /etc/ltsp/dhcpd.conf exists, that will be used as
+# configuration file instead of this file.
+#
+#
+
+# The ddns-updates-style parameter controls whether or not the server will
+# attempt to do a DNS update when a lease is confirmed. We default to the
+# behavior of the version 2 packages ('none', since DHCP v2 didn't
+# have support for DDNS.)
+ddns-update-style none;
+
+# option definitions common to all supported networks...
+option domain-name "{{ztp_setup.dhcp.domain_name}}";
+
+default-lease-time 600;
+max-lease-time 7200;
+
+# If this DHCP server is the official DHCP server for the local
+# network, the authoritative directive should be uncommented.
+authoritative;
+
+# Use this to send dhcp log messages to a different log file (you also
+# have to hack syslog.conf to complete the redirection).
+log-facility local7;
+
+# ZTP entries
+option space NEW_OP;
+option NEW_OP.image-file-name code 0 = text;
+option NEW_OP.config-file-name code 1 = text;
+option NEW_OP.image-file-type code 2 = text;
+option NEW_OP.transfer-mode code 3 = text;
+option NEW_OP.alt-image-file-name code 4 = text;
+option NEW_OP-encapsulation code 43 = encapsulate NEW_OP;
+
+# Subnet definition
+subnet {{ ztp_setup.dhcp.range}} netmask {{ztp_setup.dhcp.netmask}} {
+  range dynamic-bootp {{ztp_setup.dhcp.pool_low}} {{ztp_setup.dhcp.pool_high}};
+  option routers {{ztp_setup.dhcp.gateway}};
+}

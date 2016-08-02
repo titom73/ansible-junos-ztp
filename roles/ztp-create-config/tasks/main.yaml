@@ -1,0 +1,15 @@
+
+- name: building basic dhcp configuration
+  connection: local
+  template: >
+    src=dhcp.j2
+    dest={{ ztp.path.build }}/configlet/01_dhcp.conf
+
+- name: building ztp configuration for dhcp server
+  template: >
+    src=host.j2
+    dest={{ ztp.path.build }}/configlet/02_dhcpd_{{ inventory_hostname }}.conf
+  when: mac_address is defined
+  
+- name: assemble dhcp configuration
+  assemble: src={{ztp.path.build}}/configlet dest={{ ztp.path.build }}/dhcpd.conf

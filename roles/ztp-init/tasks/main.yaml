@@ -1,0 +1,9 @@
+---
+- name: remove ztp directory
+  file: path={{ ztp.path.build }} state=absent
+
+- name: create ztp directory
+  file: path={{ ztp.path.build }} state=directory
+
+- name: create ztp directory for configlet
+  file: path={{ ztp.path.build }}/configlet state=directory

@@ -1,0 +1,41 @@
+---
+### Role to setup all packages on the remote server to run ZTP server
+### Setup following packages: isc-dhcp-server / vsftpd
+### Enable anonymous access to FTP
+### Create simple DHCP configuration
+- name: Initiate ZTP Setup
+  hosts: ztp-servers
+  connection: ssh
+  gather_facts: no
+  roles:
+    - {role: ztp-install-packages, become: yes}
+
+### Setup Local directory structure to store files locally
+- name: Init ZTP directory strucutre to store local files
+  hosts: ztp-servers
+  connection: local
+  gather_facts: no
+  vars_files:
+    - "group_vars/ztp-servers/ztp.yaml"
+  roles:
+    - {role: ztp-init}
+
+### Create configuration files locally
+- name: Populate local ZTP configurations
+  hosts: all
+  connection: local
+  gather_facts: no
+  vars_files:
+    - "group_vars/ztp-servers/ztp.yaml"
+  roles:
+    - {role: ztp-create-config}
+
+### Send files to ZTP servers
+- name: Send ZTP configurations to server
+  hosts: ztp-servers
+  connection: ssh
+  gather_facts: no
+  vars_files:
+    - "group_vars/ztp-servers/ztp.yaml"
+  roles:
+    - {role: ztp-push-dhcp, become: yes}
