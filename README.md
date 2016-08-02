@@ -7,8 +7,8 @@ Sample project using Ansible to setup and manage ZTP server.
 In this project you'll find:
 - (1) **A role to install all software on the remote server** with Playbooks and variables based on Ubuntu/Debian system.
 - (2) Severals **ansible roles** packaged and documented into [Ansible roles](roles) to configure DHCP server and to deploy configuration files on all remote ZTP servers (FTP).
-- (3) **[Examples of configuration](config/ztp)** ZTP configuration files.
-- (4) **Playbook to play with ZTP roles** and update it in a more complex project.
+- (3) **[Examples of ZTP configurations](config/ztp)** files.
+- (4) **Playbook to play with ZTP roles** and update ZTP in a more complex project.
 
 ## Info on ZTP server
 
