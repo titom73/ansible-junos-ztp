@@ -19,7 +19,7 @@ ZTP roles require some variables to work as expected. All these variables are de
     configuration:
       method:         # Method configured to get both software and configuration
       server:         # All servers configured in dhcpd.conf
-        tftp:         # TFTP server in case of this method is used (must be set by any value if not used)
+        ftp:         # TFTP server in case of this method is used (must be set by any value if not used)
         log:          # Log server
         ntp:          # NTP server
 
