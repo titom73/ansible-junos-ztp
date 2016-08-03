@@ -33,6 +33,44 @@ ansible-playbook -i hosts.ini playbook-ztp-conf-generate.yml
 ```
 > By default, all configurations generated will be stored under the directory `config/ztp` and will replace existing configuration store there
 
+The output below is an example based:
+```
+ansible-playbook -i hosts.ini playbook-ztp-conf-generate.yml
+
+PLAY [Init ZTP directory strucutre to store local files] ***********************
+
+TASK [ztp-init : remove ztp directory] *****************************************
+changed: [ztp01]
+
+TASK [ztp-init : create ztp directory] *****************************************
+changed: [ztp01]
+
+TASK [ztp-init : create ztp directory for configlet] ***************************
+changed: [ztp01]
+
+PLAY [Populate local ZTP configurations] ***************************************
+
+TASK [ztp-create-config : building basic dhcp configuration] *******************
+changed: [ztp01]
+ok: [srx-02]
+ok: [srx-01]
+
+TASK [ztp-create-config : building ztp configuration for dhcp server] **********
+skipping: [ztp01]
+changed: [srx-01]
+changed: [srx-02]
+
+TASK [ztp-create-config : assemble dhcp configuration] *************************
+changed: [ztp01]
+changed: [srx-02]
+changed: [srx-01]
+
+PLAY RECAP *********************************************************************
+srx-01                     : ok=3    changed=2    unreachable=0    failed=0
+srx-02                     : ok=3    changed=2    unreachable=0    failed=0
+ztp01                      : ok=5    changed=5    unreachable=0    failed=0
+```
+
 # 3. Complete ZTP workflow
 A complete ZTP workflow is providing in the playbook named `playbook-ztp.yml`. This playbook executes all the following actions:
 
@@ -124,12 +162,15 @@ ansible_ssh_pass=<password to connect with SSH>
 ansible_sudo_pass=<password to execute sudo>
 ```
 
-Then, as DHCP server will push information on a per host basis, we have to define `mac_address` for each host managed by ZTP. So you have to add the following variable for your junos devices:
+Then, as DHCP server will push information on a per host basis, we have to define `mac_address` for each host managed by ZTP. Software package is also required to fullfil dhcpd configuration. So you have to add the following variable for your junos devices:
 
 ```
 [srx]
 srx-01       junos_host=0.0.0.0    mac_address=ff:aa:bb:cc:dd:ee
 srx-02       junos_host=0.0.0.0    mac_address=aa:bb:cc:dd:ee:ff
+
+[srx:vars]
+junos_software = "junos-srxsme-15.1X49-D50.3-domestic.tgz"
 ```
 
 # 6. Variables

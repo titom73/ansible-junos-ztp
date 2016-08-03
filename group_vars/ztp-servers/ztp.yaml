@@ -9,13 +9,13 @@
         pool_high: 10.1.1.120
         gateway: 10.1.1.254
         domain_name: lab.jnpr.net
-    ftp:
-      home_dir: "/var/ftp/"
+      ftp:
+        home_dir: "/var/ftp/"
 
     configuration:
       method: ftp
       server:
-        tftp: 10.1.1.1
+        ftp: 10.1.1.1
         log: 10.1.1.1
         ntp: 10.1.1.1
     path:

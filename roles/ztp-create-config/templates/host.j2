@@ -1,11 +1,12 @@
 host {{inventory_hostname}} {
 		hardware ethernet {{mac_address}};
 		fixed-address {{junos_host}};
-		option tftp-server-name "{{ztp.configuration.server.tftp}}";
 		option host-name "{{inventory_hostname}}";
 		option log-servers {{ztp.configuration.server.log}};
 		option ntp-servers {{ztp.configuration.server.ntp}};
 		option NEW_OP.image-file-name "{{ztp.path.soft}}/jinstall-ex-4200-13.2R1.1-domestic-signed.tgz";
 		option NEW_OP.transfer-mode "{{ztp.configuration.method}}";
 		option NEW_OP.config-file-name "{{ztp.path.ftp_conf}}/{{inventory_hostname}}.config";
+		option NEW_OP.image-file-name "{{ztp.path.soft}}/{{junos_software}}";
+		option option-150 "{{ztp.configuration.server.ftp}}";;
 	}
