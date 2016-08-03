@@ -7,7 +7,7 @@ This role is in charge of updating remote servers with configuration for DHCP se
 - copy devices' configuration from `{{ztp.path.junos_local}}` to `{{ztp.path.ftp_root}}/{{ztp.path.ftp_conf}}`
 
 ## 1.1. Variables needed by this role:
-All variables are defined in [group_vars/ztp-servers/ztp.yaml](../group_vars/ztp-servers)
+All variables are defined in [group_vars/ztp-servers/ztp.yaml](../../group_vars/ztp-servers)
 ```yaml
 ---
   ztp:

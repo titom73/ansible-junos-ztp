@@ -13,7 +13,7 @@ This role is in charge of installing and enabling services to support Zero Touch
 - restart dhcpd and ftpd service
 
 ## 1.1. Variables needed by this role:
-All variables are defined in [group_vars/ztp-servers/ztp.yaml](../group_vars/ztp-servers)
+All variables are defined in [group_vars/ztp-servers/ztp.yaml](../../group_vars/ztp-servers)
 ```
 ---
 ztp:
