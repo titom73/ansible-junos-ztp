@@ -33,7 +33,7 @@ All variables are defined in [group_vars/ztp-servers/ztp.yaml](../group_vars/ztp
 
 Inventory file must contains the following information for all hosts that need to be defined in your ZTP server:
 
-***[hosts.ini](../hosts.ini):***
+***[hosts.ini](../../hosts.ini):***
 ```
 <Your Device Name>       junos_host=<mgt_ip>    mac_address=<device_mac_address>
 ```
