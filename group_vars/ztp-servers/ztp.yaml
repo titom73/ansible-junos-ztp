@@ -24,3 +24,4 @@
       ftp_root: "/var/ftp"
       soft: "/soft"
       junos_local: config/
+      software_local: software/

@@ -1,3 +1,7 @@
+# GROUP_VARS structure
+
+Folders are using same name as groups defined in the [inventory file](.../hosts.ini)
+
 # ZTP Variables
 
 ZTP roles require some variables to work as expected. All these variables are defined in [ztp-servers/ztp.yaml](ztp-servers/ztp.yaml)
@@ -29,4 +33,16 @@ ZTP roles require some variables to work as expected. All these variables are de
       ftp_root:       # Home dir of the FTP server
       soft:           # FTP directory to store software
       junos_local:    # Location where Junos configurations are stored
+      software_local: # Location where software packages are stored locally
+```
+
+# Variables for Junos devices
+
+In order to generate correct `dhcpd` configuration, we have to provide package name to retireve with FTP service.
+
+```yaml
+junos:
+  software:
+    version:        # Junos Version (Information only)
+    package:        # Package name sotred in your repository and pushed in your FTP
 ```

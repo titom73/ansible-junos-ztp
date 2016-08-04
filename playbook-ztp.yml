@@ -15,8 +15,6 @@
   hosts: ztp-servers
   connection: local
   gather_facts: no
-  vars_files:
-    - "group_vars/ztp-servers/ztp.yaml"
   roles:
     - {role: ztp-init}
 
@@ -35,7 +33,5 @@
   hosts: ztp-servers
   connection: ssh
   gather_facts: no
-  vars_files:
-    - "group_vars/ztp-servers/ztp.yaml"
   roles:
     - {role: ztp-push-dhcp, become: yes}

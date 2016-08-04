@@ -1,0 +1,8 @@
+---
+  ### Send files to ZTP servers
+  - name: Send ZTP configurations & softwares to server
+    hosts: ztp-servers
+    connection: ssh
+    gather_facts: no
+    roles:
+      - {role: ztp-push-dhcp, become: yes}

@@ -9,3 +9,8 @@
   copy: src={{ item }} dest={{ztp.path.ftp_root}}/{{ztp.path.ftp_conf}}/{{ item | basename  }}
   with_fileglob:
         - "{{ztp.path.junos_local}}/*.conf"
+
+- name: push junos softwares to the FTP server
+  copy: src={{ item }} dest={{ztp.path.ftp_root}}/{{ztp.path.soft}}/{{ item | basename  }}
+  with_fileglob:
+        - "{{ztp.path.software_local}}/*"

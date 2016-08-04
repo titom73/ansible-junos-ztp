@@ -7,3 +7,6 @@
 
 - name: create ztp directory for configlet
   file: path={{ ztp.path.build }}/configlet state=directory
+
+- name: create ztp directory for softwares
+  file: path={{ ztp.path.build }}/softwares state=directory
