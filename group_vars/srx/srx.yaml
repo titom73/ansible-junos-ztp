@@ -1,0 +1,5 @@
+---
+  junos:
+    software:
+      version: "15.1X49-D50.3"
+      package: "junos-srxsme-15.1X49-D50.3-domestic.tgz"
