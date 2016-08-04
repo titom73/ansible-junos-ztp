@@ -13,8 +13,10 @@
 ddns-update-style none;
 
 # option definitions common to all supported networks...
-option domain-name "{{ztp.setup.dhcp.domain_name}}";
+{% if ztp.setup.dhcp.domain_name is defined %}option domain-name "{{ztp.setup.dhcp.domain_name}}";
+{% endif %}
 
+# Default Lease time
 default-lease-time 600;
 max-lease-time 7200;
 
@@ -36,7 +38,9 @@ option NEW_OP.alt-image-file-name code 4 = text;
 option NEW_OP-encapsulation code 43 = encapsulate NEW_OP;
 
 # Subnet definition
-subnet {{ ztp.setup.dhcp.range}} netmask {{ztp.setup.dhcp.netmask}} {
-  range dynamic-bootp {{ztp.setup.dhcp.pool_low}} {{ztp.setup.dhcp.pool_high}};
-  option routers {{ztp.setup.dhcp.gateway}};
+{% for item in ztp.setup.dhcp.ranges -%}
+subnet {{ item.range}} netmask {{item.netmask}} {
+  range dynamic-bootp {{item.pool_low}} {{item.pool_high}};
+  option routers {{item.gateway}};
 }
+{% endfor %}
