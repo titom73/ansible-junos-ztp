@@ -173,6 +173,8 @@ srx-02       junos_host=0.0.0.0    mac_address=aa:bb:cc:dd:ee:ff
 junos_software = "junos-srxsme-15.1X49-D50.3-domestic.tgz"
 ```
 
+Structure of this inventory file is based on the syntax used in the [EVPN/VXLAN repository](https://github.com/JNPRAutomate/ansible-junos-evpn-vxlan). It means, you can easily merge both project to setup a complete POC.
+
 # 6. Variables
 
 All variables are stored in the [ztp.yaml](group_vars/). Description is available in this directory.

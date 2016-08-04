@@ -4,7 +4,8 @@ This role is in charge of updating remote servers with configuration for DHCP se
 
 - Copy dhcpd.conf from `{{ztp.path.build}}` to `/etc/dhcp/dhcpd.conf`
 - Restart dhcp service on the remote server to apply latest configuration
-- copy devices' configuration from `{{ztp.path.junos_local}}` to `{{ztp.path.ftp_root}}/{{ztp.path.ftp_conf}}`
+- Copy devices' configuration from `{{ztp.path.junos_local}}` to `{{ztp.path.ftp_root}}/{{ztp.path.ftp_conf}}`
+- Copy content of software repository `{{ztp.path.software_local}}` to  `{{ztp.path.ftp_root}}/{{ztp.path.soft}}`
 
 ## 1.1. Variables needed by this role:
 All variables are defined in [group_vars/ztp-servers/ztp.yaml](../../group_vars/ztp-servers)
@@ -17,4 +18,5 @@ All variables are defined in [group_vars/ztp-servers/ztp.yaml](../../group_vars/
       ftp_root:       # Home dir of the FTP server
       soft:           # FTP directory to store software
       junos_local:    # Location where Junos configurations are stored
+      software_local: # Location where software packages are stored locally
 ```

@@ -7,6 +7,6 @@ host {{inventory_hostname}} {
 		option NEW_OP.image-file-name "{{ztp.path.soft}}/jinstall-ex-4200-13.2R1.1-domestic-signed.tgz";
 		option NEW_OP.transfer-mode "{{ztp.configuration.method}}";
 		option NEW_OP.config-file-name "{{ztp.path.ftp_conf}}/{{inventory_hostname}}.config";
-		option NEW_OP.image-file-name "{{ztp.path.soft}}/{{junos_software}}";
+		option NEW_OP.image-file-name "{{ztp.path.soft}}/{{junos.software.package}}";
 		option option-150 "{{ztp.configuration.server.ftp}}";;
 	}

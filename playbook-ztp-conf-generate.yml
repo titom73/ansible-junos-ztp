@@ -4,8 +4,6 @@
   hosts: ztp-servers
   connection: local
   gather_facts: no
-  vars_files:
-    - "group_vars/ztp-servers/ztp.yaml"
   roles:
     - {role: ztp-init}
 
@@ -14,7 +12,5 @@
   hosts: all
   connection: local
   gather_facts: no
-  vars_files:
-    - "group_vars/ztp-servers/ztp.yaml"
   roles:
     - {role: ztp-create-config}
