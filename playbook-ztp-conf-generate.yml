@@ -1,11 +1,11 @@
 ---
 ### Setup Local directory structure to store files locally
-# - name: Init ZTP directory strucutre to store local files
-#   hosts: ztp-servers
-#   connection: local
-#   gather_facts: no
-#   roles:
-#     - {role: ztp-init}
+- name: Init ZTP directory strucutre to store local files
+  hosts: ztp-servers
+  connection: local
+  gather_facts: no
+  roles:
+    - {role: ztp-init}
 
 ### Create configuration files locally
 - name: Populate local ZTP configurations
