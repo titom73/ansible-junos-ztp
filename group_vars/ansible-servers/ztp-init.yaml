@@ -1,0 +1,4 @@
+---
+  ztp:
+    path:
+      build: config/ztp

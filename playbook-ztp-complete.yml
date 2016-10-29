@@ -3,7 +3,7 @@
 ### Setup following packages: isc-dhcp-server / vsftpd
 ### Enable anonymous access to FTP
 ### Create simple DHCP configuration
-- name: Initiate ZTP Setup
+- name: 01: Initiate ZTP Setup
   hosts: ztp-servers
   connection: ssh
   gather_facts: no
@@ -11,15 +11,17 @@
     - {role: ztp-install-packages, become: yes}
 
 ### Setup Local directory structure to store files locally
-- name: Init ZTP directory strucutre to store local files
-  hosts: ztp-servers
+- name: 02: Init ZTP directory strucutre to store local files
+  hosts: ansible-servers
   connection: local
   gather_facts: no
+  vars_files:
+    - "group_vars/ansible-servers/ztp-init.yaml"
   roles:
     - {role: ztp-init}
 
 ### Create configuration files locally
-- name: Populate local ZTP configurations
+- name: 03: Populate local ZTP configurations
   hosts: all
   connection: local
   gather_facts: no
@@ -29,7 +31,7 @@
     - {role: ztp-create-config}
 
 ### Send files to ZTP servers
-- name: Send ZTP configurations to server
+- name: 04: Send ZTP configurations to server
   hosts: ztp-servers
   connection: ssh
   gather_facts: no
