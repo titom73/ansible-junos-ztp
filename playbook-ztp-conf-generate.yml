@@ -1,13 +1,6 @@
 ---
-### Setup Local directory structure to store files locally
-- name: Init ZTP directory strucutre to store local files
-  hosts: ztp-servers
-  connection: local
-  gather_facts: no
-  roles:
-    - {role: ztp-init}
-
 ### Create configuration files locally
+### Must be executed only if local structure has been created with playbook: playbook-ztp-init.yml
 - name: Populate local ZTP configurations
   hosts: all
   connection: local

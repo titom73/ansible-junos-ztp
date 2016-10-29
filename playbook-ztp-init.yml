@@ -1,0 +1,11 @@
+---
+### Setup Local directory structure to store files locally
+### Issue 11
+- name: Init ZTP directory strucutre to store local files
+  hosts: ansible-servers
+  connection: local
+  gather_facts: no
+  vars_files:
+    - "group_vars/ansible-servers/ztp-init.yaml"
+  roles:
+    - {role: ztp-init}
