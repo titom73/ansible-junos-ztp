@@ -4,32 +4,25 @@
       dhcp:
         domain_name: lab.jnpr.net
         ranges:
-          - range: 10.1.1.0
+          - range: 10.73.1.0
             netmask: 255.255.255.0
-            gw: 10.1.1.0
-            pool_low: 10.1.1.100
-            pool_high: 10.1.1.120
-            gateway: 10.1.1.254
-          - range: 10.1.1.0
-            netmask: 255.255.255.0
-            gw: 10.1.2.0
-            pool_low: 10.1.2.100
-            pool_high: 10.1.2.120
-            gateway: 10.1.2.254
-
+            gw: 10.73.1.254
+            pool_low: 10.73.1.100
+            pool_high: 10.73.1.120
+            gateway: 10.73.1.254
       ftp:
         home_dir: "/var/ftp/"
 
     configuration:
       method: ftp
       server:
-        ftp: 10.1.1.1
+        ftp: 10.73.1.253
         # log: 10.1.1.1
-        ntp: 10.1.1.1
-    path:
-      build: "config/ztp"
-      ftp_conf: "/conf"
-      ftp_root: "/var/ftp"
-      soft: "/soft"
-      junos_local: config/
-      software_local: software/
+        ntp: 10.73.1.254
+  # path:
+  #   build: "conf/ztp"
+  #   ftp_conf: "/conf"
+  #   ftp_root: "/var/ftp"
+  #   soft: "/soft"
+  #   junos_local: ./config/
+  #   software_local: software/
