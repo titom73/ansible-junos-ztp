@@ -179,6 +179,16 @@ Structure of this inventory file is based on the syntax used in the [EVPN/VXLAN 
 
 All variables are stored in the [ztp.yaml](group_vars/). Description is available in this directory.
 
+# Setup Environment
+
+As Ansible is using askpass to setup `ssh` connection, you have to ensure `hostkey` is already configured on your server. If it is not, you can deactivate hostkey checking by ansible. In your ansible configuration add the following line:
+
+```
+cat ~/.ansible.cfg
+[defaults]
+host_key_checking = False
+```
+
 # Contributing
 
 Please refer to the file [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
