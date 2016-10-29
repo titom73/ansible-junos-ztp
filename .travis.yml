@@ -16,7 +16,7 @@ install:
   - pip install -q ansible==$ANSIBLE_VERSION
 
 script:
-  - ansible-playbook playbook-ztp.yml -i hosts.ini --syntax-check
+  - ansible-playbook playbook-ztp-complete.yml -i hosts.ini --syntax-check
   - ansible-playbook playbook-ztp-conf-generate.yml -i hosts.ini --syntax-check
 
 branches:
