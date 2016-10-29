@@ -9,5 +9,5 @@ host {{inventory_hostname}} {
 		option NEW_OP.transfer-mode "{{ztp.configuration.method}}";
 		option NEW_OP.config-file-name "{{ztp.path.ftp_conf}}/{{inventory_hostname}}.config";
 		option NEW_OP.image-file-name "{{ztp.path.soft}}/{{junos.software.package}}";
-		option option-150 "{{ztp.configuration.server.ftp}}";;
+		option option-150 "{{ztp.configuration.server.ftp}}";
 }
