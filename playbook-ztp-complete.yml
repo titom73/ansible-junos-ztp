@@ -1,5 +1,6 @@
 ---
 ### Role to setup all packages on the remote server to run ZTP server
+
 ### Setup following packages: isc-dhcp-server / vsftpd
 ### Enable anonymous access to FTP
 ### Create simple DHCP configuration
