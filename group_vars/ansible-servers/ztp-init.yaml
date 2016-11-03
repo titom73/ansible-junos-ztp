@@ -1,4 +1,4 @@
 ---
   ztp:
     path:
-      build: config/ztp
+      build: conf/ztp
