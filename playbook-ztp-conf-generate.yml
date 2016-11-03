@@ -6,6 +6,6 @@
   connection: local
   gather_facts: no
   vars_files:
-    - "group_vars/ztp-servers/ztp.yaml"
+      - "group_vars/ztp-servers/ztp-create-config.yaml"
   roles:
     - {role: ztp-create-config}
