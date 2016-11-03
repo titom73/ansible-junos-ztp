@@ -16,7 +16,7 @@
   connection: local
   gather_facts: no
   vars_files:
-    - "group_vars/ansible-servers/ztp-init.yaml"
+      - "group_vars/ztp-servers/ztp-create-config.yaml"
   roles:
     - {role: ztp-init}
 
