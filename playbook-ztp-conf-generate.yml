@@ -5,7 +5,7 @@
   hosts: all
   connection: local
   gather_facts: no
-  vars_files:
-      - "group_vars/ztp-servers/ztp-create-config.yaml"
+  # vars_files:
+  #     - "group_vars/all/ztp-paths.yaml"
   roles:
     - {role: ztp-create-config}

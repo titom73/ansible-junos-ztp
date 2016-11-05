@@ -1,18 +1,18 @@
 ---
 - name: Print build path version
   debug:
-    msg: "Build directory {{ ztp.path.build }}"
+    msg: "Build directory {{ build_dir }}"
 
 - name: Check if path exists
-  stat: path={{ ztp.path.build }}
+  stat: path={{ build_dir }}
   register: check_path
 
 - name: It exists
   debug: msg='Yay, the path exists! will delete it'
   when: check_path.stat.exists and check_path.stat.isdir
 
-- name: Remove ztp.path.build
-  file: path={{ ztp.path.build }} state=absent
+- name: Remove build_dir
+  file: path={{ build_dir }} state=absent
   when: check_path.stat.exists and check_path.stat.isdir
 
 - name: It doesn't exist
@@ -20,14 +20,14 @@
   when: check_path.stat.exists == false
 
 - name: create ztp directory
-  file: path={{ ztp.path.build }} state=directory
+  file: path={{ build_dir }} state=directory
 
-- name: ztp.path.build created
-  debug: msg='ztp.path.build has been initiated correctly'
+- name: build_dir created
+  debug: msg='build_dir has been initiated correctly'
   when: check_path.stat.exists
 
 - name: create ztp directory for configlet
-  file: path={{ ztp.path.build }}/configlet/ state=directory recurse=yes
+  file: path={{ build_dir }}/configlet/ state=directory recurse=yes
 
 - name: create ztp directory for softwares
-  file: path={{ ztp.path.build }}/softwares/ state=directory recurse=yes
+  file: path={{ build_dir }}/softwares/ state=directory recurse=yes
