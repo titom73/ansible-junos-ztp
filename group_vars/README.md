@@ -2,7 +2,7 @@
 
 # ZTP Variables
 
-ZTP roles require some variables to work as expected. All these variables are defined in [ztp-servers/ztp.yaml](ztp-servers/ztp.yaml)
+ZTP roles require some variables to work as expected. All these variables are defined in [all/ztp-variables.yaml](all/ztp-variables.yaml)
 
 ```yaml
 ---
