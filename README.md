@@ -23,55 +23,51 @@ This project is managing the creation of a ZTP server running on a Debian like O
 
 All devices names, Ip addresses loopback addresses etc .. are defined in the [inventory file named hosts.ini](hosts.ini).
 
-# 2. Generate configurations
+# 3. Playbooks
 
+## 3.1 Create directory structure
+
+## 3.2 Generate
 Even without real devices, it's possible to regenerate configurations for all devices using ansible playbooks provided with the project
 
 You can generate configurations by using the following playbook:
 ```
 ansible-playbook -i hosts.ini playbook-ztp-conf-generate.yml
 ```
-> By default, all configurations generated will be stored under the directory `config/ztp` and will replace existing configuration store there
+> By default, all configurations generated will be stored under the directory `conf/ztp` as defined by `{{build_dir}}` and will replace existing configuration store there
 
 The output below is an example based:
 ```
 ansible-playbook -i hosts.ini playbook-ztp-conf-generate.yml
 
-PLAY [Init ZTP directory strucutre to store local files] ***********************
-
-TASK [ztp-init : remove ztp directory] *****************************************
-changed: [ztp01]
-
-TASK [ztp-init : create ztp directory] *****************************************
-changed: [ztp01]
-
-TASK [ztp-init : create ztp directory for configlet] ***************************
-changed: [ztp01]
-
 PLAY [Populate local ZTP configurations] ***************************************
 
 TASK [ztp-create-config : building basic dhcp configuration] *******************
-changed: [ztp01]
-ok: [srx-02]
+ok: [ztp01]
+changed: [srx-02]
 ok: [srx-01]
+ok: [ansible01]
 
 TASK [ztp-create-config : building ztp configuration for dhcp server] **********
 skipping: [ztp01]
-changed: [srx-01]
+skipping: [ansible01]
 changed: [srx-02]
+changed: [srx-01]
 
 TASK [ztp-create-config : assemble dhcp configuration] *************************
-changed: [ztp01]
+ok: [ztp01]
 changed: [srx-02]
-changed: [srx-01]
+ok: [ansible01]
+ok: [srx-01]
 
 PLAY RECAP *********************************************************************
-srx-01                     : ok=3    changed=2    unreachable=0    failed=0
-srx-02                     : ok=3    changed=2    unreachable=0    failed=0
-ztp01                      : ok=5    changed=5    unreachable=0    failed=0
+ansible01                  : ok=2    changed=0    unreachable=0    failed=0   
+srx-01                     : ok=3    changed=1    unreachable=0    failed=0   
+srx-02                     : ok=3    changed=3    unreachable=0    failed=0   
+ztp01                      : ok=2    changed=0    unreachable=0    failed=0   
 ```
 
-# 3. Complete ZTP workflow
+## 3.3. Complete ZTP workflow
 A complete ZTP workflow is providing in the playbook named `playbook-ztp.yml`. This playbook executes all the following actions:
 
 - Install dhcp and ftp servers on the remote servers
@@ -101,47 +97,58 @@ Repository is using the following structure:
 
 ```
 ansible-junos-ztp
-├── config
-│   ├── srx-01.conf
-│   ├── srx-02.conf
+├── conf
 │   └── ztp
 │       ├── configlet
 │       │   ├── 01_dhcp.conf
 │       │   ├── 02_dhcpd_srx-01.conf
 │       │   └── 02_dhcpd_srx-02.conf
-│       └── dhcpd.conf
+│       ├── dhcpd.conf
+│       └── softwares
+├── CONTRIBUTING.md
 ├── group_vars
-│   └── ztp-servers
-│       └── ztp.yaml
+│   ├── all
+│   │   ├── vars.yaml
+│   │   └── ztp-variables.yaml
+│   ├── README.md
+│   └── srx
 ├── hosts.ini
 ├── LICENSE
+├── playbook-ztp-complete.yml
+├── playbook-ztp-conf-generate.retry
 ├── playbook-ztp-conf-generate.yml
-├── playbook-ztp.yml
+├── playbook-ztp-init.yml
+├── playbook-ztp-push-data.yml
 ├── README.md
-└── roles
-    ├── ztp-create-config
-    │   ├── tasks
-    │   │   └── main.yaml
-    │   └── templates
-    │       ├── dhcp.j2
-    │       └── host.j2
-    ├── ztp-init
-    │   ├── tasks
-    │   │   └── main.yaml
-    │   ├── templates
-    │   └── vars
-    │       └── main.yaml
-    ├── ztp-install-packages
-    │   ├── tasks
-    │   │   └── main.yaml
-    │   └── templates
-    │       └── dhcp.j2
-    └── ztp-push-dhcp
-        ├── tasks
-        │   └── main.yaml
-        ├── templates
-        └── vars
-            └── main.yaml
+├── requirements.txt
+├── roles
+│   ├── ztp-create-config
+│   │   ├── README.md
+│   │   ├── tasks
+│   │   │   └── main.yaml
+│   │   └── templates
+│   │       ├── dhcp.j2
+│   │       └── host.j2
+│   ├── ztp-init
+│   │   ├── README.md
+│   │   ├── tasks
+│   │   │   └── main.yaml
+│   │   └── vars
+│   │       └── main.yaml
+│   ├── ztp-install-packages
+│   │   ├── README.md
+│   │   ├── tasks
+│   │   │   └── main.yaml
+│   │   └── templates
+│   │       └── dhcp.j2
+│   └── ztp-push-dhcp
+│       ├── README.md
+│       ├── tasks
+│       │   └── main.yaml
+│       └── vars
+│           └── main.yaml
+└── software
+    └── junos-srxsme-15.1X49-D50.3-domestic.tgz
 ```
 
 # 5. Inventory files
@@ -150,34 +157,50 @@ Inventory is stored in the `hosts.ini` file. In order to work, your inventory fi
 
 ```
 ########################
+## All Lab devices    ##
+########################
+[all:children]
+ztp-servers
+srx
+ansible-servers
+
+########################
 ## ZTP devices        ##
 ########################
+
 [ztp-servers]
-ztp01       ansible_host=<IP address of ZTP server>
+ztp01       ansible_host=10.73.1.196
 
 [ztp-servers:vars]
 ansible_connection=ssh
-ansible_ssh_user=<remote user>
-ansible_ssh_pass=<password to connect with SSH>
-ansible_sudo_pass=<password to execute sudo>
+ansible_ssh_user=ansible
+ansible_ssh_pass='password123'
+ansible_sudo_pass='password123'
+
+[ansible-servers]
+ansible01       ansible_host=127.0.0.1
 ```
 
 Then, as DHCP server will push information on a per host basis, we have to define `mac_address` for each host managed by ZTP. Software package is also required to fullfil dhcpd configuration. So you have to add the following variable for your junos devices:
 
 ```
+########################
+## Junos devices      ##
+########################
 [srx]
-srx-01       junos_host=0.0.0.0    mac_address=ff:aa:bb:cc:dd:ee
-srx-02       junos_host=0.0.0.0    mac_address=aa:bb:cc:dd:ee:ff
+srx-01       junos_host=10.73.1.8    loopback_ip=100.0.0.1	mgmt_port=fxp0   mac_address=ff:aa:bb:cc:dd:ee
+srx-02       junos_host=10.73.1.9    loopback_ip=100.0.0.1	mgmt_port=fxp0   mac_address=ff:aa:bb:cc:dd:11
 
 [srx:vars]
-junos_software = "junos-srxsme-15.1X49-D50.3-domestic.tgz"
+junos_version= "15.1X49-D50.3"
+junos_package= "junos-srxsme-15.1X49-D50.3-domestic.tgz"
 ```
 
 Structure of this inventory file is based on the syntax used in the [EVPN/VXLAN repository](https://github.com/JNPRAutomate/ansible-junos-evpn-vxlan). It means, you can easily merge both project to setup a complete POC.
 
 # 6. Variables
 
-All variables are stored in the [ztp.yaml](group_vars/). Description is available in this directory.
+All variables are stored in the [vars.yaml and ztp-variables.yaml](group_vars/all/). Description is available in this directory.
 
 # Setup Environment
 
