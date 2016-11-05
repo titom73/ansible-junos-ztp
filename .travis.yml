@@ -1,30 +1,26 @@
 language: python
 python:
-  - 2.7
-
+- 2.7
 sudo: required
 dist: trusty
-
 env:
-  - ANSIBLE_VERSION=2.1.1.0
-
+- ANSIBLE_VERSION=2.1.1.0
 before_install:
-  - sudo apt-get install -y python-dev libxml2-dev python-pip libxslt1-dev build-essential libssl-dev libffi-dev
-
+- sudo apt-get install -y python-dev libxml2-dev python-pip libxslt1-dev build-essential
+  libssl-dev libffi-dev
 install:
-  - pip install -r requirements.txt
-  - pip install -q ansible==$ANSIBLE_VERSION
-
+- pip install -r requirements.txt
+- pip install -q ansible==$ANSIBLE_VERSION
 script:
-  - ansible-playbook playbook-ztp-complete.yml -i hosts.ini --syntax-check
-  - ansible-playbook playbook-ztp-conf-generate.yml -i hosts.ini --syntax-check
-
+- ansible-playbook playbook-ztp-complete.yml -i hosts.ini --syntax-check
+- ansible-playbook playbook-ztp-conf-generate.yml -i hosts.ini --syntax-check
 branches:
   only:
-   - master
-
+  - master
 notifications:
   email:
     recipients:
-      - git@inetsix.net
+    - git@inetsix.net
     on_failure: always
+  slack:
+    secure: vfLaA6aV/CwJpVtqHVhEfjk8dpq7NjPi2vSXAexL0DNpzj4YzGo36KL18KsD1V5hF+XkmSFQtlMU1FYul0KHFgws365FIuhm5c9qnQYBFPdRj92rGV8EZD59QC1GGkXPie0vGaecF+Zp0fskqpSLjvyxP+7cfcJOTQFeUXyqiO2VEMHXF1dfDoAAgkMMK08VtiyA7C0Sc3PX8Yyt45D3XJXgQZFjz+pslBwQYH1743UJ1/NIeJhwDpMzdJY6qbTH68UfWGWWFgbKTtZh6YObliEIcv8bHHPNdNnL3KNAEpNLAK8UhzfdFWgOC00sM2h850Iv0Lo46QV28RZe3qS9cpm3JJHWH4EfOagihEpEYg5mmMuL1D4N2M14WWL4+TaOK46hYqmICyO0KjT54+Wh5j5Cna2Sa9ROV/qM06zEVKJZgzWTg0X6oShpjB82Ap1ulgRTtliJ6FN/4ys+0PUQZRErZNhJjYTEImOxHS1TjKnI5jaIojj7vNB4cRLNIVcnqD0X+WFeY2gjQ79DS8pDyzh88by/HCuNRWAwOu4xnEfaihy4NJ0bSsUPIPhpNI36F4sICXPovW6ez1gIJCj566QX5Vc92u9bk2dXCo5ihVdkLfksxOazVBh3kJC/W5PeHljNH4eHW/PqH6ztDykE/LUQO9qNhnT9KP32anAN9sA=
