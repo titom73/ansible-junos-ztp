@@ -20,7 +20,7 @@
 
 ### Create configuration files locally
 - name: 03- Populate local ZTP configurations
-  hosts: all
+  hosts: all:!ztp-servers
   connection: local
   gather_facts: no
   roles:
