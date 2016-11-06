@@ -6,10 +6,12 @@
     dest={{ build_dir }}/configlet/01_dhcp.conf
 
 - name: building ztp configuration for dhcp server
+  connection: local
   template: >
     src=host.j2
     dest={{ build_dir }}/configlet/02_dhcpd_{{ inventory_hostname }}.conf
   when: mac_address is defined
 
 - name: assemble dhcp configuration
+  connection: local
   assemble: src={{ build_dir }}/configlet dest={{ build_dir }}/dhcpd.conf
