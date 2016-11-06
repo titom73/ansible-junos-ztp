@@ -19,9 +19,8 @@
         ftp: 10.73.1.253
         # log: 10.1.1.1
         ntp: 10.73.1.254
-     
+
     path:
-      build: "conf/ztp"
       ftp_conf: "/conf"
       ftp_root: "/var/ftp"
       soft: "/soft"

@@ -1,6 +1,6 @@
 ---
 - name: Copy dhcp content to dhcp-server
-  template: src={{ ztp.path.build }}/dhcpd.conf dest=/etc/dhcp/dhcpd.conf backup=yes
+  template: src={{ build_dir }}/dhcpd.conf dest=/etc/dhcp/dhcpd.conf backup=yes
 
 - name: Restart dhcp service to apply changes
   service: name=isc-dhcp-server state=restarted

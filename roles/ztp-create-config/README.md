@@ -7,7 +7,7 @@ This role is in charge of creating DHCP configuration to apply on your ZTP serve
 - Assemble all files generated in the previous actions.
 
 ## 1.1. Variables needed by this role:
-All variables are defined in [group_vars/ztp-servers/ztp.yaml](../../group_vars/ztp-servers)
+All variables are defined in [group_vars/all/ztp-variables.yaml](../../group_vars/all/ztp-variables.yaml)
 ```yaml
 ---
   ztp:
@@ -28,14 +28,23 @@ All variables are defined in [group_vars/ztp-servers/ztp.yaml](../../group_vars/
         ntp:          # NTP server
 
     path:             # All paths required by ZTP roles
-      build:          # Local directory where to store configuration file
+      ftp_conf:       # FTP directory to store configuration
+      ftp_root:       # Home dir of the FTP server
+      soft:           # FTP directory to store software
+      junos_local:    # Location where Junos configurations are stored
+      software_local: # Location where software packages are stored locally
 ```
 
 Inventory file must contains the following information for all hosts that need to be defined in your ZTP server:
 
 ***[hosts.ini](../../hosts.ini):***
 ```
+[group_Name]
 <Your Device Name>       junos_host=<mgt_ip>    mac_address=<device_mac_address>
+
+[group_Name:vars]
+junos_versio=<Junos version to use>
+junos_package=<filename of the package>
 ```
 
 ## 1.2. DHCP template
@@ -73,6 +82,14 @@ Inventory file must contains the following information for all hosts that need t
   option NEW_OP.alt-image-file-name code 4 = text;
   option NEW_OP-encapsulation code 43 = encapsulate NEW_OP;
 
+  option space ztp-ops;
+  option ztp-ops.image-file-name code 0 = text;
+  option ztp-ops.config-file-name code 1 = text;
+  option ztp-ops.image-file-type code 2 = text;
+  option ztp-ops.transfer-mode code 3 = text;
+  option ztp-ops-encap code 43 = encapsulate ztp-ops;
+  option ztp-ops.ztp-file-server code 150 = { ip-address };
+
   # Subnet definition
   subnet {{ ztp.setup.dhcp.range}} netmask {{ztp.setup.dhcp.netmask}} {
     range dynamic-bootp {{ztp.setup.dhcp.pool_low}} {{ztp.setup.dhcp.pool_high}};
@@ -86,12 +103,14 @@ Inventory file must contains the following information for all hosts that need t
 host {{inventory_hostname}} {
 		hardware ethernet {{mac_address}};
 		fixed-address {{junos_host}};
-		option tftp-server-name "{{ztp.configuration.server.tftp}}";
 		option host-name "{{inventory_hostname}}";
-		option log-servers {{ztp.configuration.server.log}};
-		option ntp-servers {{ztp.configuration.server.ntp}};
-		option NEW_OP.image-file-name "{{ztp.path.soft}}/jinstall-ex-4200-13.2R1.1-domestic-signed.tgz";
-		option NEW_OP.transfer-mode "{{ztp.configuration.method}}";
-		option NEW_OP.config-file-name "{{ztp.path.ftp_conf}}/{{inventory_hostname}}.config";
-	}
+{% if ztp.configuration.server.log is defined %}		option log-servers {{ztp.configuration.server.log}};
+{% endif %}
+{% if ztp.configuration.server.ntp is defined %}		option ntp-servers {{ztp.configuration.server.ntp}};
+{% endif %}
+		option ztp-ops.config-file-name "{{ztp.path.ftp_conf}}/{{inventory_hostname}}.config";
+		option ztp-ops.ztp-file-server {{ztp.configuration.server.ftp}};
+		option ztp-ops.image-file-name "{{ztp.path.soft}}/{{junos_package}}";
+  	option ztp-ops.transfer-mode "{{ztp.configuration.method}}";
+}
 ```

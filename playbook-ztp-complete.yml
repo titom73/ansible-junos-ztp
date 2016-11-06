@@ -1,6 +1,5 @@
 ---
 ### Role to setup all packages on the remote server to run ZTP server
-
 ### Setup following packages: isc-dhcp-server / vsftpd
 ### Enable anonymous access to FTP
 ### Create simple DHCP configuration
@@ -16,18 +15,14 @@
   hosts: ansible-servers
   connection: local
   gather_facts: no
-  vars_files:
-      - "group_vars/ztp-servers/ztp-create-config.yaml"
   roles:
     - {role: ztp-init}
 
 ### Create configuration files locally
 - name: 03- Populate local ZTP configurations
-  hosts: all
+  hosts: all:!ztp-servers
   connection: local
   gather_facts: no
-  vars_files:
-      - "group_vars/ztp-servers/ztp-create-config.yaml"
   roles:
     - {role: ztp-create-config}
 

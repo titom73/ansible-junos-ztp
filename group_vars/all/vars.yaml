@@ -1,0 +1,6 @@
+########################################################################
+# System variable used to define building directory
+# please update build variable if needed
+########################################################################
+
+build_dir: conf/ztp
