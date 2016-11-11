@@ -12,8 +12,11 @@ install:
 - pip install -r requirements.txt
 - pip install -q ansible==$ANSIBLE_VERSION
 script:
-- ansible-playbook playbook-ztp-complete.yml -i hosts.ini --syntax-check
+- ansible-playbook playbook-ztp-setup.yml -i hosts.ini --syntax-check
+- ansible-playbook playbook-ztp-init.yml -i hosts.ini --syntax-check
 - ansible-playbook playbook-ztp-conf-generate.yml -i hosts.ini --syntax-check
+- ansible-playbook playbook-ztp-push-data.yml -i hosts.ini --syntax-check
+- ansible-playbook playbook-ztp-complete.yml -i hosts.ini --syntax-check
 branches:
   only:
   - master
