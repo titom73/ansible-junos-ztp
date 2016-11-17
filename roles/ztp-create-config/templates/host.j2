@@ -10,4 +10,5 @@ host {{inventory_hostname}} {
 		option ztp-ops.ztp-file-server {{ztp.configuration.server.ftp}};
 		option ztp-ops.image-file-name "{{ztp.path.soft}}/{{junos_package}}";
   	option ztp-ops.transfer-mode "{{ztp.configuration.method}}";
+		option option-150  {{ztp.configuration.server.ftp}};
 }

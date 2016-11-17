@@ -45,6 +45,8 @@ option ztp-ops.transfer-mode code 3 = text;
 option ztp-ops-encap code 43 = encapsulate ztp-ops;
 option ztp-ops.ztp-file-server code 150 = { ip-address };
 
+option option-150 code 150 = ip-address;
+
 # Subnet definition
 {% for item in ztp.setup.dhcp.ranges -%}
 subnet {{ item.range}} netmask {{item.netmask}} {
