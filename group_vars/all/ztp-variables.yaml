@@ -16,7 +16,7 @@
     configuration:
       method: ftp
       server:
-        ftp: 10.73.1.253
+        ftp: 10.73.1.254
         # log: 10.1.1.1
         ntp: 10.73.1.254
 
