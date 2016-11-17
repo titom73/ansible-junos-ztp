@@ -1,0 +1,8 @@
+---
+### Setup local files to run demo in Paris office
+- name: Populate ZTP repository to provide demo in France LAB
+  hosts: ansible-servers
+  connection: local
+  gather_facts: no
+  roles:
+    - {role: ztp-demo-lab-fr}

@@ -1,0 +1,10 @@
+---
+- name: Move configuration for FR-EX2200-110 to junos_local
+  copy:
+    src: "{{ role_path }}/files/FR-EX2200-110.conf"
+    dest: "{{playbook_dir}}/{{ztp.path.junos_local}}/FR-EX2200-110.conf"
+
+- name: Update inventory file
+  copy:
+    src: "{{ role_path }}/files/hosts.ini"
+    dest: "{{playbook_dir}}/hosts.ini"
