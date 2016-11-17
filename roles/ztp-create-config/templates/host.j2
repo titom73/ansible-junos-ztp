@@ -6,7 +6,7 @@ host {{inventory_hostname}} {
 {% endif %}
 {% if ztp.configuration.server.ntp is defined %}		option ntp-servers {{ztp.configuration.server.ntp}};
 {% endif %}
-		option ztp-ops.config-file-name "{{ztp.path.ftp_conf}}/{{inventory_hostname}}.config";
+		option ztp-ops.config-file-name "{{ztp.path.ftp_conf}}/{{inventory_hostname}}.conf";
 		option ztp-ops.ztp-file-server {{ztp.configuration.server.ftp}};
 		# option ztp-ops.image-file-name "{{ztp.path.soft}}/{{junos_package}}";
   	option ztp-ops.transfer-mode "{{ztp.configuration.method}}";
