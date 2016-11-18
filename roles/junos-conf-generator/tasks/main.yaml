@@ -1,0 +1,5 @@
+---
+- name: Building common configuration for junos devices
+  template: >
+    src=common.conf.j2
+    dest={{ ztp.path.junos_local }}/{{ inventory_hostname }}.conf
