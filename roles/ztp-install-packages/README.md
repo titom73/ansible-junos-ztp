@@ -26,3 +26,25 @@ ztp:
     soft:             # FTP directory to store software
     junos_local:      # Location where Junos configurations are stored
 ```
+
+## 1.2 Variables requested by template
+
+As role is using template to create initial `dhcpd.conf` file, some inputs must be set to match your own environment. These variables are located in [group_vars/all/ztp-variables.yaml](../../all/ztp-variables.yaml)
+
+```
+---
+  ztp:
+    setup:
+      dhcp:
+        domain_name: lab.jnpr.net
+        ranges:
+          - range:        # Range definition / Network address
+            netmask:      # Network mask
+            gateway:      # Default gateway pushed by DHCP
+            pool_low:     # First IP address available in the scope
+            pool_high:    # Last IP address available in the scope
+```
+
+In some cases, you would be interested by adding other paramters such as `name-server`. In this case, you can edit template and variables to add your own constraints.
+
+For more information about how to configure `isc-dhcp-server`, you can refer to its official documentation: [`man 5 dhcpd.conf`](https://www.freebsd.org/cgi/man.cgi?query=dhcpd.conf&sektion=5&apropos=0&manpath=FreeBSD+9.0-RELEASE+and+Ports)

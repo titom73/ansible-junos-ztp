@@ -74,13 +74,6 @@ junos_package=<filename of the package>
   log-facility local7;
 
   # ZTP entries
-  option space NEW_OP;
-  option NEW_OP.image-file-name code 0 = text;
-  option NEW_OP.config-file-name code 1 = text;
-  option NEW_OP.image-file-type code 2 = text;
-  option NEW_OP.transfer-mode code 3 = text;
-  option NEW_OP.alt-image-file-name code 4 = text;
-  option NEW_OP-encapsulation code 43 = encapsulate NEW_OP;
 
   option space ztp-ops;
   option ztp-ops.image-file-name code 0 = text;
@@ -117,3 +110,5 @@ host {{inventory_hostname}} {
     option option-150  {{ztp.configuration.server.ftp}};
 }
 ```
+
+For more information about how to configure `isc-dhcp-server`, you can refer to its official documentation: [`man 5 dhcpd.conf`](https://www.freebsd.org/cgi/man.cgi?query=dhcpd.conf&sektion=5&apropos=0&manpath=FreeBSD+9.0-RELEASE+and+Ports)
