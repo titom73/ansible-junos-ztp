@@ -11,6 +11,9 @@
 - name: restart dhcp service to apply changes
   service: name=isc-dhcp-server state=restarted
 
+- name: Push dhcpd.conf template
+  template: src={{role_path}}/templates/dhcp.j2 dest=/etc/dhcp/dhcpd.conf owner=root group=root mode=0644
+
 - name: install FTP server to deploy configuration and software
   apt: name=vsftpd state=present
 
