@@ -126,10 +126,10 @@ ok: [ansible01]
 ok: [srx-01]
 
 PLAY RECAP *********************************************************************
-ansible01                  : ok=2    changed=0    unreachable=0    failed=0   
-srx-01                     : ok=3    changed=1    unreachable=0    failed=0   
-srx-02                     : ok=3    changed=3    unreachable=0    failed=0   
-ztp01                      : ok=2    changed=0    unreachable=0    failed=0   
+ansible01                  : ok=2    changed=0    unreachable=0    failed=0
+srx-01                     : ok=3    changed=1    unreachable=0    failed=0
+srx-02                     : ok=3    changed=3    unreachable=0    failed=0
+ztp01                      : ok=2    changed=0    unreachable=0    failed=0
 ```
 
 ## 3.3. Complete ZTP workflow
@@ -147,7 +147,7 @@ You can execute this playbook by using the following playbook:
 ansible-playbook -i hosts.ini playbook-ztp.yml
 ```
 
-> By default, all configurations generated will be stored under the directory `config/ztp` and will replace existing configuration store there
+> By default, all configurations generated will be stored under the directory `conf/ztp` and will replace existing configuration store there
 
 # 4. Repository strucutre
 
@@ -226,7 +226,7 @@ Inventory is stored in the `hosts.ini` file. In order to work, your inventory fi
 ########################
 [all:children]
 ztp-servers
-srx
+ex
 ansible-servers
 
 ########################
@@ -252,13 +252,12 @@ Then, as DHCP server will push information on a per host basis, we have to defin
 ########################
 ## Junos devices      ##
 ########################
-[srx]
-srx-01       junos_host=10.73.1.8    loopback_ip=100.0.0.1	mgmt_port=fxp0   mac_address=ff:aa:bb:cc:dd:ee
-srx-02       junos_host=10.73.1.9    loopback_ip=100.0.0.1	mgmt_port=fxp0   mac_address=ff:aa:bb:cc:dd:11
+[ex]
+FR-EX2200-110       junos_host=10.73.1.8    loopback_ip=100.0.0.1       mgmt_port=me0   mac_address=2c:6b:f5:3a:1d:7f
 
-[srx:vars]
-junos_version= "15.1X49-D50.3"
-junos_package= "junos-srxsme-15.1X49-D50.3-domestic.tgz"
+[ex:vars]
+junos_version= "12.3R3.4"
+junos_package= "jinstall-ex-2200-12.3R3.4-domestic.tgz"
 ```
 
 Structure of this inventory file is based on the syntax used in the [EVPN/VXLAN repository](https://github.com/JNPRAutomate/ansible-junos-evpn-vxlan). It means, you can easily merge both project to setup a complete POC.
@@ -283,7 +282,7 @@ ansible 2.1.2.0
 ```
 
 ### ZTP Server
-ZTP server: tested on Ubuntu 16.04 latest
+ZTP server: tested on Ubuntu 14.04 / 16.04 and latest
 ```
 ansible-ztp:~$ lsb_release -a
 No LSB modules are available.
@@ -291,6 +290,15 @@ Distributor ID: Ubuntu
 Description:    Ubuntu 16.04 LTS
 Release:        16.04
 Codename:       xenial
+```
+
+```
+tom@automation-ztp:~/ansible-junos-ztp$ lsb_release  -a
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description:    Ubuntu 14.04.2 LTS
+Release:        14.04
+Codename:       trusty
 ```
 
 ## Ansible tips
@@ -302,6 +310,14 @@ cat ~/.ansible.cfg
 [defaults]
 host_key_checking = False
 ```
+This repository uses its own `ansible.cfg` file to store local parameters. Content of this file is provided below:
+
+```
+[defaults]
+host_key_checking = False
+inventory = hosts.ini
+```
+As inventory file is set to hosts.ini, there is no need to specify the value if you are using this one.
 
 # Contributing
 

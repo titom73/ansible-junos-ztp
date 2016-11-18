@@ -90,6 +90,8 @@ junos_package=<filename of the package>
   option ztp-ops-encap code 43 = encapsulate ztp-ops;
   option ztp-ops.ztp-file-server code 150 = { ip-address };
 
+  option option-150 code 150 = ip-address;
+
   # Subnet definition
   subnet {{ ztp.setup.dhcp.range}} netmask {{ztp.setup.dhcp.netmask}} {
     range dynamic-bootp {{ztp.setup.dhcp.pool_low}} {{ztp.setup.dhcp.pool_high}};
@@ -112,5 +114,6 @@ host {{inventory_hostname}} {
 		option ztp-ops.ztp-file-server {{ztp.configuration.server.ftp}};
 		option ztp-ops.image-file-name "{{ztp.path.soft}}/{{junos_package}}";
   	option ztp-ops.transfer-mode "{{ztp.configuration.method}}";
+    option option-150  {{ztp.configuration.server.ftp}};
 }
 ```
