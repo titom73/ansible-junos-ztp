@@ -149,6 +149,48 @@ ansible-playbook -i hosts.ini playbook-ztp.yml
 
 > By default, all configurations generated will be stored under the directory `conf/ztp` and will replace existing configuration store there
 
+## 3.4 Push data to ZTP servers.
+
+This playbook will push all data to your remote servers by using basic `copy` statement or by using `synchronize` module. Default mode is to use `copy` and an example is provided below:
+
+```
+ansible-playbook playbook-ztp-push-data.yml
+
+PLAY [Send ZTP configurations & softwares to server] ***************************
+
+TASK [ztp-push-dhcp : Push junos configuration to the FTP server with sync] ****
+skipping: [ztp01]
+
+TASK [ztp-push-dhcp : Push junos configuration to the FTP server] **************
+changed: [ztp01] => (item=/home/tom/scripting/ansible-junos-ztp/conf/FR-EX2200-112.conf)
+changed: [ztp01] => (item=/home/tom/scripting/ansible-junos-ztp/conf/FR-EX2200-110.conf)
+changed: [ztp01] => (item=/home/tom/scripting/ansible-junos-ztp/conf/FR-EX2200-111.conf)
+
+TASK [ztp-push-dhcp : Push junos softwares to the FTP server] ******************
+
+TASK [ztp-push-dhcp : Copy dhcp content to dhcp-server] ************************
+ok: [ztp01]
+
+TASK [ztp-push-dhcp : Restart dhcp service to apply changes] *******************
+skipping: [ztp01]
+```
+
+If you want to use `synchronize` module, you have to install `rsync` on your local machine. Installation and configuration of `rsync` on remote ZTP servers is supported by role `ztp-install-packages`. Then, to activate this module, you have to set `sync` variable to `true` in your playbook:
+
+```
+---
+  ### Send files to ZTP servers
+  - name: Send ZTP configurations & softwares to server
+    hosts: ztp-servers
+    connection: ssh
+    gather_facts: no
+    roles:
+      - {role: ztp-push-dhcp, become: yes, sync: true}
+```
+
+> As `synchronize` module relies on rsync, authentication must be configured out of this playbook. You can use ssh-keys to avoid password prompt or you will have to enter your password when playbook will upload files.
+
+
 # 4. Repository strucutre
 
 Repository is using the following structure:

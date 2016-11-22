@@ -1,11 +1,4 @@
 ---
-- name: Copy dhcp content to dhcp-server
-  template: src={{ build_dir }}/dhcpd.conf dest=/etc/dhcp/dhcpd.conf backup=yes
-
-- name: Restart dhcp service to apply changes
-  service: name=isc-dhcp-server state=restarted
-
-
 - name: Push junos configuration to the FTP server with sync
   synchronize: src={{ztp.path.junos_local}}/ dest={{ztp.path.ftp_root}}/{{ztp.path.ftp_conf}}/ recursive=no rsync_path="sudo rsync"
   when:
@@ -22,3 +15,11 @@
   copy: src={{ item }} dest={{ztp.path.ftp_root}}/{{ztp.path.soft}}/{{ item | basename  }}
   with_fileglob:
         - "{{ztp.path.software_local}}/*"
+
+- name: Copy dhcp content to dhcp-server
+  template: src={{ build_dir }}/dhcpd.conf dest=/etc/dhcp/dhcpd.conf backup=yes
+  register: dhcp_config
+
+- name: Restart dhcp service to apply changes
+  service: name=isc-dhcp-server state=restarted
+  when: dhcp_config.changed
