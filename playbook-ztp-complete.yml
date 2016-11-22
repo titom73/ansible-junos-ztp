@@ -19,7 +19,17 @@
     - {role: ztp-init}
 
 ### Create configuration files locally
-- name: 03- Populate local ZTP configurations
+- name: 03- Populate configuration for junos devices
+  hosts: devices
+  connection: local
+  gather_facts: no
+  vars_files:
+      - "group_vars/all/ztp-variables.yaml"
+  roles:
+    - {role: junos-conf-generator}
+
+### Create configuration files locally
+- name: 04- Populate local ZTP configurations
   hosts: all:!ztp-servers
   connection: local
   gather_facts: no
@@ -32,4 +42,4 @@
   connection: ssh
   gather_facts: no
   roles:
-    - {role: ztp-push-dhcp, become: yes}
+    - {role: ztp-push-dhcp, become: yes, sync: false}
