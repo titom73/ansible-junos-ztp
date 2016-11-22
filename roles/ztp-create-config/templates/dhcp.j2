@@ -1,11 +1,3 @@
-#
-# Sample configuration file for ISC dhcpd for Debian
-#
-# Attention: If /etc/ltsp/dhcpd.conf exists, that will be used as
-# configuration file instead of this file.
-#
-#
-
 # The ddns-updates-style parameter controls whether or not the server will
 # attempt to do a DNS update when a lease is confirmed. We default to the
 # behavior of the version 2 packages ('none', since DHCP v2 didn't
@@ -29,13 +21,6 @@ authoritative;
 log-facility local7;
 
 # ZTP entries
-option space NEW_OP;
-option NEW_OP.image-file-name code 0 = text;
-option NEW_OP.config-file-name code 1 = text;
-option NEW_OP.image-file-type code 2 = text;
-option NEW_OP.transfer-mode code 3 = text;
-option NEW_OP.alt-image-file-name code 4 = text;
-option NEW_OP-encapsulation code 43 = encapsulate NEW_OP;
 
 option space ztp-ops;
 option ztp-ops.image-file-name code 0 = text;

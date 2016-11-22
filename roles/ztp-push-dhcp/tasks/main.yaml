@@ -1,8 +1,15 @@
 ---
+- name: Push junos configuration to the FTP server with sync
+  synchronize: src={{ztp.path.junos_local}}/ dest={{ztp.path.ftp_root}}/{{ztp.path.ftp_conf}}/ recursive=no rsync_path="sudo rsync"
+  when:
+    - sync == true
+
 - name: Push junos configuration to the FTP server
   copy: src={{ item }} dest={{ztp.path.ftp_root}}/{{ztp.path.ftp_conf}}/{{ item | basename  }}
   with_fileglob:
         - "{{ztp.path.junos_local}}/*.conf"
+  when:
+    - sync == false
 
 - name: Push junos softwares to the FTP server
   copy: src={{ item }} dest={{ztp.path.ftp_root}}/{{ztp.path.soft}}/{{ item | basename  }}

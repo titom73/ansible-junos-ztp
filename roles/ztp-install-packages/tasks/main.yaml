@@ -8,6 +8,12 @@
 - name: install DHCP server
   apt: name=isc-dhcp-server state=present
 
+- name: install RSYNC service
+  apt: name=rsync state=present
+
+- name: Push dhcpd.conf template
+  template: src={{role_path}}/templates/dhcp.j2 dest=/etc/dhcp/dhcpd.conf owner=root group=root mode=0644
+
 - name: restart dhcp service to apply changes
   service: name=isc-dhcp-server state=restarted
 
@@ -31,3 +37,10 @@
 
 - name: restart ftp service to apply changes
   service: name=vsftpd state=restarted
+
+- name: get rsync path
+  shell: which rsync
+  register: rsync_path
+
+- name: setup sudo to use rsync with no-password
+  lineinfile: dest=/etc/sudoers line="{{ansible_ssh_user}} ALL=NOPASSWD:/usr/bin/rsync"
