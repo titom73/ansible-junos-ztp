@@ -4,5 +4,7 @@
     hosts: ztp-servers
     connection: ssh
     gather_facts: no
+    vars:
+        sync: true
     roles:
       - {role: ztp-push-dhcp, become: yes}
