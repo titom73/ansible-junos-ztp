@@ -95,4 +95,3 @@ ENV/
 
 # Custom directories
 config/*
-conf/*
