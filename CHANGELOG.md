@@ -1,3 +1,15 @@
+
+n.n.n / 2016-11-23
+==================
+
+ * Add CHANGELOG
+ * issue #31 - add checksum validation and add rsync option to transfert softwares
+
+n.n.n / 2016-11-23
+==================
+
+ * Add CHANGELOG
+ * issue #31 - add checksum validation and add rsync option to transfert softwares
 ## Changes since 2016-08-01
 
  * @titom73: Merge v1.1 features to master (#34)
