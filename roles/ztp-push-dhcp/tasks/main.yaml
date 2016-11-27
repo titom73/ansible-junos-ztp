@@ -1,20 +1,27 @@
 ---
 - name: Push junos configuration to the FTP server with sync
-  synchronize: src={{ztp.path.junos_local}}/ dest={{ztp.path.ftp_root}}/{{ztp.path.ftp_conf}}/ recursive=no rsync_path="sudo rsync"
+  synchronize: src={{ztp.path.junos_local}}/ dest={{ztp.path.ftp_root}}/{{ztp.path.ftp_conf}}/ checksum=yes rsync_path="sudo rsync"
   when:
     - sync == true
 
-- name: Push junos configuration to the FTP server
+- name: Push junos configuration to the FTP server from {{ztp.path.junos_local}}
   copy: src={{ item }} dest={{ztp.path.ftp_root}}/{{ztp.path.ftp_conf}}/{{ item | basename  }}
   with_fileglob:
         - "{{ztp.path.junos_local}}/*.conf"
   when:
     - sync == false
 
-- name: Push junos softwares to the FTP server
+- name: Push junos softwares to the FTP server with sync
+  synchronize: src={{ztp.path.junos_local}}/ dest={{ztp.path.ftp_root}}/{{ztp.path.ftp_conf}}/ checksum=yes rsync_path="sudo rsync"
+  when:
+    - sync == true
+
+- name: Push junos softwares to the FTP server from {{ build_dir }}/{{ztp.path.software_local}}
   copy: src={{ item }} dest={{ztp.path.ftp_root}}/{{ztp.path.soft}}/{{ item | basename  }}
   with_fileglob:
-        - "{{ztp.path.software_local}}/*"
+        - "{{build_dir}}/{{ztp.path.software_local}}/*"
+  when:
+    - sync == false
 
 - name: Copy dhcp content to dhcp-server
   template: src={{ build_dir }}/dhcpd.conf dest=/etc/dhcp/dhcpd.conf backup=yes
