@@ -30,4 +30,4 @@
   file: path={{ build_dir }}/configlet/ state=directory recurse=yes
 
 - name: create ztp directory for softwares
-  file: path={{ build_dir }}/softwares/ state=directory recurse=yes
+  file: path={{ build_dir }}/{{ztp.path.software_local}} state=directory recurse=yes

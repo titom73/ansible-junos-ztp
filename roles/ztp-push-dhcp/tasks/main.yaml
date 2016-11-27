@@ -7,7 +7,7 @@
 - name: Push junos configuration to the FTP server
   copy: src={{ item }} dest={{ztp.path.ftp_root}}/{{ztp.path.ftp_conf}}/{{ item | basename  }}
   with_fileglob:
-        - "{{ztp.path.junos_local}}/*.conf"
+        - "{{build_dir}}/{{ztp.path.junos_local}}/*.conf"
   when:
     - sync == false
 
