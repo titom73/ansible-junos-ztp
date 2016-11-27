@@ -3,4 +3,4 @@
 # please update build variable if needed
 ########################################################################
 
-build_dir: conf/ztp
+build_dir: "{{playbook_dir}}/conf/ztp"
