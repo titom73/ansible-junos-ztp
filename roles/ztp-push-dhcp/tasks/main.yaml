@@ -4,10 +4,10 @@
   when:
     - sync == true
 
-- name: Push junos configuration to the FTP server
+- name: Push junos configuration to the FTP server from {{ztp.path.junos_local}}
   copy: src={{ item }} dest={{ztp.path.ftp_root}}/{{ztp.path.ftp_conf}}/{{ item | basename  }}
   with_fileglob:
-        - "{{build_dir}}/{{ztp.path.junos_local}}/*.conf"
+        - "{{ztp.path.junos_local}}/*.conf"
   when:
     - sync == false
 
@@ -16,7 +16,7 @@
   when:
     - sync == true
 
-- name: Push junos softwares to the FTP server {{ build_dir }}/{{ztp.path.software_local}}
+- name: Push junos softwares to the FTP server from {{ build_dir }}/{{ztp.path.software_local}}
   copy: src={{ item }} dest={{ztp.path.ftp_root}}/{{ztp.path.soft}}/{{ item | basename  }}
   with_fileglob:
         - "{{build_dir}}/{{ztp.path.software_local}}/*"
