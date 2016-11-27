@@ -19,7 +19,7 @@
 - name: Push junos softwares to the FTP server
   copy: src={{ztp.path.software_local}} dest={{ztp.path.ftp_root}}/{{ztp.path.soft}}/{{ item | basename  }}
   with_fileglob:
-        - "{{ztp.path.software_local}}/*"
+        - "{{ build_dir }}/{{ztp.path.software_local}}/*"
   when:
     - sync == false
 
