@@ -1,0 +1,17 @@
+---
+- name: Check netconf connectivity
+  wait_for: host={{ junos_host }} port=830  timeout=5
+  register: netconf_enable
+
+- name: Retrieve information from devices running Junos OS
+  junos_facts: host={{ junos_host }} username={{ansible_ssh_user}} password={{ansible_ssh_pass}}
+  when: netconf_enable
+  register: junos_facts
+
+- name: version is OK
+  debug: msg="{{ inventory_hostname }} ({{ junos_facts.ansible_facts.serialnumber }}) is running {{junos_facts.ansible_facts.version}}"
+  when: (netconf_enable and junos_facts.ansible_facts.version == junos_version)
+
+- name: version mismatch
+  fail: msg="{{ inventory_hostname }} ({{ junos_facts.ansible_facts.serialnumber }}) is running {{junos_facts.ansible_facts.version}} (expected {{junos_version}})"
+  when: (netconf_enable and junos_facts.ansible_facts.version != junos_version)
