@@ -1,0 +1,11 @@
+---
+### Create configuration files for Junos devices on local basis
+### Must be executed only if local structure has been created with playbook: playbook-ztp-init.yml
+- name: Check status of Junos devices
+  hosts: vsrx
+  connection: local
+  gather_facts: yes
+  # vars_files:
+  #     - "group_vars/all/ztp-variables.yaml"
+  roles:
+    - {role: junos-check}
