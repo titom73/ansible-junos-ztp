@@ -4,14 +4,38 @@
   register: netconf_enable
 
 - name: Retrieve information from devices running Junos OS
-  junos_facts: host={{ junos_host }} username={{ansible_ssh_user}} password={{ansible_ssh_pass}}
+  junos_facts:
+    host: "{{ junos_host }}"
+    username: "{{ansible_ssh_user}}"
+    password: "{{ansible_ssh_pass}}"
   when: netconf_enable
   register: junos_facts
 
-- name: version is OK
+- name: version is in sync
   debug: msg="{{ inventory_hostname }} ({{ junos_facts.ansible_facts.serialnumber }}) is running {{junos_facts.ansible_facts.version}}"
   when: (netconf_enable and junos_facts.ansible_facts.version == junos_version)
 
 - name: version mismatch
   fail: msg="{{ inventory_hostname }} ({{ junos_facts.ansible_facts.serialnumber }}) is running {{junos_facts.ansible_facts.version}} (expected {{junos_version}})"
   when: (netconf_enable and junos_facts.ansible_facts.version != junos_version)
+
+- name: test based on a compliance-status-basic-interface.yml directly
+  junos_jsnapy:
+    host: "{{ junos_host }}"
+    user: "{{ ansible_ssh_user }}"
+    passwd: "{{ ansible_ssh_pass }}"
+    test_files: "{{jsnapy_test}}"
+    action: snapcheck
+  register: test1
+  when: (netconf_enable)
+
+# - name: display test results
+#   debug:
+#     msg: "{{test1}}"
+
+- name: Check JSNAPy tests results
+  assert:
+    that:
+     - "test1.passPercentage == 100"
+    msg: "Test failed: {{test1.passPercentage}}% / success {{test1.total_passed}} / error {{test1.total_failed}}"
+  when: (netconf_enable)

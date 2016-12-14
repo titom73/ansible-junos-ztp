@@ -5,5 +5,12 @@
   hosts: devices
   connection: local
   gather_facts: yes
+  vars:
+    - jsnapy_test: "{{role_path}}/files/jsnapy.yaml"
+    - netconf:
+        host:{{ junos_host }}
+        username:{{ansible_ssh_user}}
+        password:{{ansible_ssh_pass}}
+
   roles:
     - {role: junos-check}
