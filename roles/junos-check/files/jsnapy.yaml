@@ -1,0 +1,18 @@
+tests_include:
+  - check_interface_status
+
+check_interface_status:
+  - command: show interfaces ge*
+  - iterate:
+      xpath: '//physical-interface'
+      id: './name'
+      tests:
+        # Check if interface status changed during migration
+        - is-equal: oper-status, up
+          err: "Test Failed!! {{pre['name']}}: oper-status got changed: <{{pre['oper-status']}}> --> <{{pre['oper-status']}}>"
+          info: "Test Succeeded!! {{pre['name']}}: oper-status is: <{{pre['oper-status']}}>"
+
+        # Check if all interfaces have their own description
+        - exists: description
+          err: "Test Failed!! {{pre['name']}} has no description"
+          info: "Test Succeeded!! {{pre['name']}}: description is set ({{pre['description']}})"
